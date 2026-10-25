@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ahraz Kibria · Software + AI Engineer</title>
+<meta name="description" content="Ahraz Kibria, software and AI engineer in Toronto. Real-time data and AI systems, from telemetry pipelines covering 500K+ vehicles to GraphRAG platforms.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Michroma&display=swap">
+<link rel="stylesheet" href="css/app.css">
+<script>
+(function(){var r=document.documentElement,s={};try{s=JSON.parse(localStorage.getItem('akos3')||'{}');}catch(e){}
+if(s.theme==='light'||s.theme==='dark')r.setAttribute('data-theme',s.theme);
+if(s.intro!=='off'&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&!navigator.webdriver)r.classList.add('preboot');})();
+</script>
+</head>
+<body>
+
+<div id="boot" aria-hidden="true">
+  <canvas id="bootGL"></canvas>
+  <div class="b-hud">
+    <span class="b-corner c1"></span><span class="b-corner c2"></span><span class="b-corner c3"></span><span class="b-corner c4"></span>
+    <div class="b-top"><span>AK-OS — BOOT SEQUENCE</span><span id="bClock">T−04.3</span></div>
+    <div class="b-bar"><i id="bBar"></i></div>
+    <div class="b-hint">CLICK OR PRESS ANY KEY TO SKIP</div>
+    <svg class="b-ret" viewBox="-75 -75 150 150"><circle r="46" class="r1"/><circle r="62" class="r2"/><path class="tk" d="M-75 0H-52M52 0H75M0 -75V-52M0 52V75"/></svg>
+    <ul class="b-chk" id="bChk"></ul>
+    <div class="b-coord">43.6532° N<br>79.3832° W<br>TORONTO</div>
+  </div>
+  <div class="b-sub" id="bSub">SOFTWARE + AI ENGINEER — TORONTO</div>
+</div>
+
+<header class="top"><div class="row">
+  <a class="brand" href="#top">AHRAZ KIBRIA<small>AK-OS v0.3 · MOCKUP</small></a>
+  <nav class="main" aria-label="Sections"><a href="#projects">PROJECTS</a><a href="#experience">EXPERIENCE</a><a href="#skills">SKILLS</a><a href="#contact">CONTACT</a></nav>
+  <span class="spacer"></span>
+  <span class="beacon"><i class="dot"></i><span class="bt">OPEN TO WORK</span></span>
+  <span class="clocks" title="Mission elapsed time counts from the first day in industry, Sep 5 2024"><span>UTC <b id="utc">--:--:--</b></span><span>MET <b id="met">T+0D</b></span></span>
+  <div class="seg" id="theme" role="group" aria-label="Theme"><button type="button" data-t="auto" aria-pressed="true">AUTO</button><button type="button" data-t="light" aria-pressed="false">DAY</button><button type="button" data-t="dark" aria-pressed="false">NIGHT</button></div>
+  <button class="kbtn" type="button" data-cmd="pal" aria-label="Open command palette">⌘K</button>
+</div></header>
+
+<main class="wrap">
+  <section class="hero rv" id="top" style="--i:0">
+    <canvas id="heroGL" aria-hidden="true"></canvas>
+    <svg id="leaders" aria-hidden="true"></svg>
+    <div class="h-top">
+      <div><div class="lbl">AK-OS — SHEET 01 / OVERVIEW</div><div class="scalebar"><i></i><span class="lbl">0 · 50 · 100 PX</span></div></div>
+      <div class="ro" aria-hidden="true"><span>RENDER</span><b id="rGpu">WEBGL</b><span>FRAME</span><b id="rFps">— FPS</b><span>MAGNET</span><b id="rMag">—</b></div>
+    </div>
+    <div class="h-name">
+      <h1 class="name" id="name"><span class="ln">AHRAZ</span><span class="ln">KIBRIA</span></h1>
+      <div class="hint" id="hint"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3v8a6 6 0 0 0 12 0V3h-4v8a2 2 0 0 1-4 0V3z"/></svg><span id="hintT">MOVE YOUR CURSOR. THE NAME IS MAGNETIC.</span></div>
+    </div>
+    <div class="h-co">
+      <div class="co"><b>3 h → 10 min</b><span>Pipeline latency at Geotab, rebuilt ETL</span></div>
+      <div class="co"><b data-to="2500" data-suf="+">2,500+</b><span>Users on a production GenAI agent</span></div>
+      <div class="co"><b data-to="99.6" data-dec="1" data-suf="%">99.6%</b><span>PR-AUC, drug-interaction GNN (Aegis)</span></div>
+      <div class="co"><b data-to="500" data-suf="K+">500K+</b><span>Vehicles' telemetry integrated</span></div>
+    </div>
+    <div class="h-foot">
+      <div>
+        <p class="pitch">Software and AI engineer. I build real-time data and AI systems, from telemetry pipelines covering 500K+ vehicles to GraphRAG platforms that catch dangerous drug interactions.</p>
+        <div class="ctas">
+          <button class="btn pri" type="button" data-cmd="resume">Download résumé</button>
+          <button class="btn" type="button" data-cmd="pal">Ask AK-OS <kbd>⌘K</kbd></button>
+          <a class="btn" href="#contact">Contact</a>
+        </div>
+      </div>
+      <table class="tb" aria-label="Summary">
+        <tr><td>DRAWN BY</td><td>AHRAZ KIBRIA</td></tr>
+        <tr><td>DISCIPLINE</td><td>SOFTWARE + AI ENGINEERING</td></tr>
+        <tr><td>EDUCATION</td><td>B.ENG COMPUTER ENG · DEAN'S LIST</td></tr>
+        <tr><td>LOCATION</td><td>TORONTO, ON · 43.65° N</td></tr>
+        <tr><td>STATUS</td><td><i class="dot"></i>OPEN TO WORK</td></tr>
+        <tr><td>REV</td><td>2026.10 · SHEET 1 OF 5</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section id="projects" class="rv" style="--i:1">
+    <div class="sh"><span class="lbl cs" data-cs="MISSIONS">SHEET 02</span><h2><span class="sr">Projects</span><span class="flap" aria-hidden="true" data-from="MISSIONS" data-to="PROJECTS"></span></h2><span class="lbl">4 FLAGSHIP · 3 ACTIVE · 9 ARCHIVED</span><p>Every card is a working instrument, not a screenshot. Open one for the full page: summary, system design, how it works, results and roadmap.</p></div>
+    <div class="pgrid" id="pgrid"></div>
+    <div class="ch archive"><details class="in" open><summary><span class="lbl">ARCHIVE — 9 EARLIER PROJECTS</span><span class="lbl">3 FEATURED</span></summary><div id="arch"></div></details></div>
+  </section>
+
+  <section id="experience" class="rv" style="--i:2">
+    <div class="sh"><span class="lbl cs" data-cs="FLIGHT LOG">SHEET 03</span><h2><span class="sr">Experience</span><span class="flap" aria-hidden="true" data-from="FLIGHT LOG" data-to="EXPERIENCE"></span></h2><span class="lbl">AUG 2021 → NOW</span><p>Hover a point to preview, select it to read the entry. The ink reaches toward what's next.</p></div>
+    <div class="tlbox" id="tlbox">
+      <button class="tl-nav l" type="button" aria-label="Scroll timeline left">‹</button>
+      <div class="tl-wrap" id="tlw"><div class="tl" id="tl"></div></div>
+      <button class="tl-nav r" type="button" aria-label="Scroll timeline right">›</button>
+      <div class="tl-hint lbl">DRAG OR SWIPE FOR MORE <i>→</i></div>
+    </div>
+    <div class="ch evd"><div class="in pad" id="evd"></div></div>
+  </section>
+
+  <section id="skills" class="rv" style="--i:3">
+    <div class="sh"><span class="lbl cs" data-cs="SYSTEMS">SHEET 04</span><h2><span class="sr">Skills</span><span class="flap" aria-hidden="true" data-from="SYSTEMS" data-to="SKILLS"></span></h2><span class="lbl">SKILLS ↔ PROJECTS ↔ ROLES</span><p>No self-rated bars. Node size is the amount of evidence. Drag to rotate, select a node to see where a skill was used, or paste a job description below.</p></div>
+    <div class="sys">
+      <div class="ch gwrap"><div class="in" style="position:relative">
+        <div class="gbar" id="gbar"></div>
+        <canvas id="graph" aria-label="3D knowledge graph of skills, projects and roles"></canvas>
+        <span class="lbl ghint">DRAG TO ROTATE · SELECT A NODE</span>
+      </div></div>
+      <div class="ch gs"><div class="in pad" id="gpanel"></div></div>
+    </div>
+    <div class="ch jd"><div class="in pad">
+      <div class="jd-h"><div><div class="lbl">JOB MATCH</div><h3>Paste a job description. See which requirements Ahraz has shipped work for.</h3></div><button class="btn" type="button" id="jdSample">Try a sample</button></div>
+      <div class="jd-g"><textarea id="jdIn" aria-label="Job description" placeholder="Paste a job description here…"></textarea><div class="jd-out" id="jdOut"><div class="lbl">RESULT</div><p>Paste a job description and press Match. Matching skills light up in the graph above, each linked to the project or role that proves it.</p></div></div>
+      <div class="jd-f"><button class="btn pri" type="button" id="jdGo">Match</button><span class="lbl">Runs in your browser. Keyword match against project evidence. Nothing is sent.</span></div>
+    </div></div>
+  </section>
+
+  <div class="row2 rv" style="--i:4">
+    <section id="education">
+      <div class="sh"><span class="lbl cs" data-cs="CREDENTIALS">SHEET 05</span><h2><span class="sr">Education</span><span class="flap" aria-hidden="true" data-from="CREDENTIALS" data-to="EDUCATION"></span></h2></div>
+      <div class="ch cred"><div class="in pad">
+        <div class="lbl">DEGREE</div>
+        <h3>B.Eng. Computer Engineering</h3>
+        <p>Software Engineering specialization · Toronto Metropolitan University</p>
+        <p class="lbl" style="margin-top:8px">AUG 2021 – MAY 2026 · TORONTO, ON</p>
+        <div class="badges"><span>DEAN'S LIST · FALL 2025</span><span>DEAN'S LIST · WINTER 2026</span></div>
+        <blockquote class="quote">“A proactive, insightful, and dedicated individual … He has my highest recommendation.”<cite>PREVIOUS MANAGER · GEOTAB</cite></blockquote>
+      </div></div>
+    </section>
+    <section id="contact">
+      <div class="sh"><span class="lbl cs" data-cs="UPLINK">SHEET 05</span><h2><span class="sr">Contact</span><span class="flap" aria-hidden="true" data-from="UPLINK" data-to="CONTACT"></span></h2><span class="lbl">CHANNEL OPEN</span></div>
+      <div class="ch up"><div class="in pad">
+        <form id="cform" novalidate>
+          <div class="fld"><label for="cName">Name</label><input id="cName" autocomplete="name" placeholder="Jordan Lee"></div>
+          <div class="fld"><label for="cMail">Work email</label><input id="cMail" type="email" autocomplete="email" placeholder="jordan@company.com"></div>
+          <div class="fld"><label for="cMsg">Message</label><textarea id="cMsg" placeholder="We're hiring for an AI engineering role on our data platform team…"></textarea></div>
+          <div class="err" id="cErr" role="alert"></div>
+          <button class="btn pri" type="submit">Send message</button>
+        </form>
+        <div class="links">
+          <button type="button" data-cmd="resume">RÉSUMÉ <span>choose a version ↓</span></button>
+          <a href="https://github.com/ahrazkk" target="_blank" rel="noopener">GITHUB <span>github.com/ahrazkk ↗</span></a>
+          <a href="https://www.linkedin.com/in/ahrazkibria" target="_blank" rel="noopener">LINKEDIN <span>in/ahrazkibria ↗</span></a>
+          <button type="button" data-cmd="pal">ASK AK-OS <span>⌘K</span></button>
+          <a href="https://aegishealth.dev/" target="_blank" rel="noopener">AEGIS LIVE <span>aegishealth.dev ↗</span></a>
+        </div>
+      </div></div>
+    </section>
+  </div>
+</main>
+
+<footer class="sysbar">
+  <span class="lbl">MISSION 00 — AK-OS v0.3 MOCKUP</span>
+  <span class="lbl">BUILD 3A90F2*</span>
+  <span class="lbl">LIGHTHOUSE 98*</span>
+  <span class="lbl">OPERATING COST $0.92/MO*</span>
+  <span class="sp"></span>
+  <span class="lbl">* SAMPLE VALUES</span>
+  <button class="kbtn" type="button" data-cmd="replay">↻ REPLAY INTRO</button>
+</footer>
+
+<button id="labBtn" type="button" aria-expanded="false" aria-controls="lab"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4v16M4 12h16"/></svg><span>DESIGN LAB</span></button>
+<aside id="lab" aria-label="Design lab"></aside>
+<nav class="mdock" aria-label="Sections"><a href="#projects">PROJECTS</a><a href="#experience">WORK</a><a href="#skills">SKILLS</a><a href="#contact">CONTACT</a></nav>
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="sheet" role="dialog" aria-modal="true" aria-labelledby="shTitle" hidden></div>
+<div id="pal" class="ovl" role="dialog" aria-modal="true" aria-label="Command palette" hidden>
+  <div class="pal-box ch"><div class="in">
+    <input id="palIn" placeholder="Type a command, or ask: has he built streaming systems?" autocomplete="off" aria-controls="palList">
+    <ul id="palList" role="listbox"></ul>
+    <div id="palAns"></div>
+  </div></div>
+</div>
+<div id="rdlg" class="ovl" role="dialog" aria-modal="true" aria-labelledby="rTitle" hidden>
+  <div class="pal-box ch"><div class="in">
+    <div class="r-h"><h3 id="rTitle">DOWNLOAD RÉSUMÉ</h3><button class="kbtn" type="button" id="rClose" aria-label="Close">✕</button></div>
+    <ul id="rList"></ul>
+    <p class="lbl r-f">PICK THE VERSION THAT MATCHES THE ROLE</p>
+  </div></div>
+</div>
+
+<script src="js/core.js"></script>
+<script src="js/data.js"></script>
+<script src="js/liquid.js"></script>
+<script src="js/viz.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

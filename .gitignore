@@ -1,0 +1,27 @@
+# OS and editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+.vscode/
+.idea/
+
+# Dependencies and builds (for later phases)
+node_modules/
+dist/
+.vercel/
+.next/
+
+# Secrets: never commit these
+.env
+.env.*
+*.pem
+
+# Local Claude Code settings
+.claude/settings.local.json
+
+# Private planning material: kept local, never pushed to the public repo
+PLAN.md
+LAUNCH.md
+content/
+mockups/
