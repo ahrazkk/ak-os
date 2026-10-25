@@ -15,8 +15,10 @@ function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');cl
 
 /* ---------- design lab settings ---------- */
 const DEF={theme:'auto',accent:'mono',accentCustom:'#2F6BFF',dFont:'Michroma',uiFont:'Geist Mono',bodyFont:'Geist',liqColor:'auto',liqStyle:'flat',magnet:1,spikes:1,pull:1,drops:24,intro:'on',tlStyle:'flow',corners:'chamfer',grid:'on',gridSize:48,width:'wide'};
-let SET=Object.assign({},DEF);try{Object.assign(SET,JSON.parse(localStorage.getItem('akos3')||'{}'));}catch(e){}
-function saveSet(){try{localStorage.setItem('akos3',JSON.stringify(SET));}catch(e){}}
+/* the lab only opens with ?lab; everyone else gets the approved defaults plus their theme */
+const LAB_ON=/[?&]lab\b/.test(location.search);
+let SET=Object.assign({},DEF);try{const s=JSON.parse(localStorage.getItem('akos3')||'{}');if(LAB_ON)Object.assign(SET,s);else if(s.theme)SET.theme=s.theme;}catch(e){}
+function saveSet(){try{const s=LAB_ON?SET:Object.assign(JSON.parse(localStorage.getItem('akos3')||'{}'),{theme:SET.theme});localStorage.setItem('akos3',JSON.stringify(s));}catch(e){}}
 const DFONTS=[['Michroma',400,1],['Syncopate',700],['Orbitron',700],['Unbounded',600],['Audiowide',400,1],['Oxanium',700],['Chakra Petch',600],['Bebas Neue',400,1],['Major Mono Display',400,1],['Space Grotesk',600],['Geist',600]];
 const MFONTS=[['Geist Mono','400;500'],['JetBrains Mono','400;500'],['IBM Plex Mono','400;500'],['Space Mono','400;700']];
 const BFONTS=[['Geist','400;500;600'],['IBM Plex Sans','400;500;600'],['Manrope','400;500;600']];

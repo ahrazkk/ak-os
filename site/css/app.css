@@ -160,6 +160,10 @@ kbd{font:500 10px var(--f-mono);border:1px solid currentColor;padding:1px 5px;op
 .ag-chart div{background:var(--ink);height:0;transition:height .7s cubic-bezier(.6,0,.2,1);position:relative}
 .ag-chart div span{position:absolute;top:calc(100% + 4px);left:50%;transform:translateX(-50%);font:500 9.5px var(--f-mono);color:var(--mut);white-space:nowrap}
 .ag-chart div b{position:absolute;bottom:calc(100% + 3px);left:50%;transform:translateX(-50%);font:500 10px var(--f-mono)}
+.agent:not(.big) .ag-chart{margin-bottom:6px}
+.vz:has(> .agent){container-type:inline-size}
+@container (max-width:460px){.agent .ag-steps li em{display:none}}
+.agent:not(.big) .ag-chart div span{display:none}
 .ag-foot{grid-column:1/-1;display:flex;justify-content:space-between;gap:10px;font:500 10px var(--f-mono);letter-spacing:.1em;color:var(--mut)}
 .ag-sql{grid-column:1/-1;margin:0;padding:12px 14px;background:var(--panel);border:1px solid var(--line-soft);font:500 11.5px/1.6 var(--f-mono);overflow-x:auto;white-space:pre}
 .agent.big{grid-template-rows:auto auto auto auto;overflow-y:auto}
@@ -289,6 +293,9 @@ kbd{font:500 10px var(--f-mono);border:1px solid currentColor;padding:1px 5px;op
 .links span{color:var(--mut);letter-spacing:.02em}
 .sysbar{max-width:var(--maxw);margin:72px auto 0;border-top:1px solid var(--line);padding-top:14px;display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center}
 .sysbar .sp{flex:1}
+.sysbar a{color:var(--ink);text-decoration:none}
+.sysbar a:hover{text-decoration:underline;text-underline-offset:4px}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 
 /* project page (sheet) */
 #sheet{position:fixed;inset:0;z-index:80;background:var(--bg);overflow-y:auto;opacity:0;transform:translateY(18px);transition:opacity .3s,transform .4s cubic-bezier(.6,0,.2,1)}
@@ -349,7 +356,7 @@ kbd{font:500 10px var(--f-mono);border:1px solid currentColor;padding:1px 5px;op
 .tile span{display:block;font:500 10.5px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin-top:6px}
 .blist,.roadmap{margin:16px 0 0;padding-left:20px;max-width:62em}
 .blist li,.roadmap li{margin:6px 0;font-size:14.5px}
-.draft{display:inline-block;font:500 10px var(--f-mono);letter-spacing:.1em;border:1px dashed var(--mut);color:var(--mut);padding:2px 7px;margin-bottom:12px}
+.pal-wip{margin:0;padding:10px 20px 14px;border-top:1px solid var(--line-soft);color:var(--mut)}
 
 /* overlays: palette, résumé, design lab, toast */
 .ovl{position:fixed;inset:0;z-index:90;background:color-mix(in srgb,var(--bg) 55%,transparent);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;justify-content:center;align-items:flex-start;padding:12vh var(--gut) 0}
@@ -466,7 +473,7 @@ body.booted .rv{animation:rv .9s cubic-bezier(.6,0,.2,1) both;animation-delay:ca
 @media (max-width:640px){
   .p,.p.flag{grid-column:1/-1}
   .vz,.p:not(.flag) .vz{height:280px}
-  .bt,.ro,#labBtn span{display:none}
+  .bt,.ro,#labBtn span,.brand .gs,.top .kbtn{display:none}
   .top .row{gap:10px}
   .arow{grid-template-columns:44px minmax(0,1fr) 18px}
   .arow .d,.arow .lbl{display:none}

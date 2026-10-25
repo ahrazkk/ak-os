@@ -5,14 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Ahraz Kibria · Software + AI Engineer</title>
 <meta name="description" content="Ahraz Kibria, software and AI engineer in Toronto. Real-time data and AI systems, from telemetry pipelines covering 500K+ vehicles to GraphRAG platforms.">
+<meta name="theme-color" content="#0B0B0C">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ahraz Kibria · Software + AI Engineer">
+<meta property="og:description" content="Real-time data and AI systems, from telemetry pipelines covering 500K+ vehicles to drug-interaction graph neural networks.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B0B0C'/%3E%3Ctext x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='%23fff' text-anchor='middle'%3EAK%3C/text%3E%3C/svg%3E">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Ahraz Kibria","jobTitle":"Software and AI Engineer","address":{"@type":"PostalAddress","addressLocality":"Toronto","addressRegion":"ON","addressCountry":"CA"},"alumniOf":"Toronto Metropolitan University","sameAs":["https://github.com/ahrazkk","https://www.linkedin.com/in/ahrazkibria"]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Michroma&display=swap">
 <link rel="stylesheet" href="css/app.css">
 <script>
-(function(){var r=document.documentElement,s={};try{s=JSON.parse(localStorage.getItem('akos3')||'{}');}catch(e){}
+(function(){var r=document.documentElement,s={},seen=false,lab=/[?&]lab\b/.test(location.search);try{s=JSON.parse(localStorage.getItem('akos3')||'{}');}catch(e){}try{seen=sessionStorage.getItem('akos-intro')==='1';}catch(e){}
 if(s.theme==='light'||s.theme==='dark')r.setAttribute('data-theme',s.theme);
-if(s.intro!=='off'&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&!navigator.webdriver)r.classList.add('preboot');})();
+/* the intro plays once per browser session, never for bots or reduced motion */
+if(!(lab&&s.intro==='off')&&!seen&&!/^#project\//.test(location.hash)&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&!navigator.webdriver&&!/bot|crawl|spider|slurp|lighthouse/i.test(navigator.userAgent))r.classList.add('preboot');})();
 </script>
 </head>
 <body>
@@ -32,7 +40,7 @@ if(s.intro!=='off'&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&!na
 </div>
 
 <header class="top"><div class="row">
-  <a class="brand" href="#top">AHRAZ KIBRIA<small>AK-OS v0.3 · MOCKUP</small></a>
+  <a class="brand" href="#top">AHRAZ KIBRIA<small>AK-OS v1<span class="gs"> · GROUND STATION</span></small></a>
   <nav class="main" aria-label="Sections"><a href="#projects">PROJECTS</a><a href="#experience">EXPERIENCE</a><a href="#skills">SKILLS</a><a href="#contact">CONTACT</a></nav>
   <span class="spacer"></span>
   <span class="beacon"><i class="dot"></i><span class="bt">OPEN TO WORK</span></span>
@@ -72,7 +80,7 @@ if(s.intro!=='off'&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&!na
         <tr><td>DRAWN BY</td><td>AHRAZ KIBRIA</td></tr>
         <tr><td>DISCIPLINE</td><td>SOFTWARE + AI ENGINEERING</td></tr>
         <tr><td>EDUCATION</td><td>B.ENG COMPUTER ENG · DEAN'S LIST</td></tr>
-        <tr><td>LOCATION</td><td>TORONTO, ON · 43.65° N</td></tr>
+        <tr><td>LOCATION</td><td>TORONTO · REMOTE · CANADA / US</td></tr>
         <tr><td>STATUS</td><td><i class="dot"></i>OPEN TO WORK</td></tr>
         <tr><td>REV</td><td>2026.10 · SHEET 1 OF 5</td></tr>
       </table>
@@ -129,6 +137,7 @@ if(s.intro!=='off'&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&!na
       <div class="sh"><span class="lbl cs" data-cs="UPLINK">SHEET 05</span><h2><span class="sr">Contact</span><span class="flap" aria-hidden="true" data-from="UPLINK" data-to="CONTACT"></span></h2><span class="lbl">CHANNEL OPEN</span></div>
       <div class="ch up"><div class="in pad">
         <form id="cform" novalidate>
+          <div class="hp" aria-hidden="true"><label for="cHp">Leave this empty</label><input id="cHp" tabindex="-1" autocomplete="off"></div>
           <div class="fld"><label for="cName">Name</label><input id="cName" autocomplete="name" placeholder="Jordan Lee"></div>
           <div class="fld"><label for="cMail">Work email</label><input id="cMail" type="email" autocomplete="email" placeholder="jordan@company.com"></div>
           <div class="fld"><label for="cMsg">Message</label><textarea id="cMsg" placeholder="We're hiring for an AI engineering role on our data platform team…"></textarea></div>
@@ -140,7 +149,7 @@ if(s.intro!=='off'&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&!na
           <a href="https://github.com/ahrazkk" target="_blank" rel="noopener">GITHUB <span>github.com/ahrazkk ↗</span></a>
           <a href="https://www.linkedin.com/in/ahrazkibria" target="_blank" rel="noopener">LINKEDIN <span>in/ahrazkibria ↗</span></a>
           <button type="button" data-cmd="pal">ASK AK-OS <span>⌘K</span></button>
-          <a href="https://aegishealth.dev/" target="_blank" rel="noopener">AEGIS LIVE <span>aegishealth.dev ↗</span></a>
+          <a href="https://aegishealth.dev/" target="_blank" rel="noopener">AEGIS <span>aegishealth.dev · backend paused ↗</span></a>
         </div>
       </div></div>
     </section>
@@ -148,12 +157,10 @@ if(s.intro!=='off'&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&!na
 </main>
 
 <footer class="sysbar">
-  <span class="lbl">MISSION 00 — AK-OS v0.3 MOCKUP</span>
-  <span class="lbl">BUILD 3A90F2*</span>
-  <span class="lbl">LIGHTHOUSE 98*</span>
-  <span class="lbl">OPERATING COST $0.92/MO*</span>
+  <span class="lbl">AK-OS v1 · STATIC BUILD · NO TRACKING</span>
+  <a class="lbl" href="https://github.com/ahrazkk/ak-os" target="_blank" rel="noopener">SOURCE ON GITHUB ↗</a>
   <span class="sp"></span>
-  <span class="lbl">* SAMPLE VALUES</span>
+  <span class="lbl">© 2026 AHRAZ KIBRIA</span>
   <button class="kbtn" type="button" data-cmd="replay">↻ REPLAY INTRO</button>
 </footer>
 
@@ -164,9 +171,10 @@ if(s.intro!=='off'&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&!na
 <div id="sheet" role="dialog" aria-modal="true" aria-labelledby="shTitle" hidden></div>
 <div id="pal" class="ovl" role="dialog" aria-modal="true" aria-label="Command palette" hidden>
   <div class="pal-box ch"><div class="in">
-    <input id="palIn" placeholder="Type a command, or ask: has he built streaming systems?" autocomplete="off" aria-controls="palList">
+    <input id="palIn" placeholder="Type a command…" autocomplete="off" aria-controls="palList">
     <ul id="palList" role="listbox"></ul>
     <div id="palAns"></div>
+    <p class="lbl pal-wip">ASK AK-OS · QUESTIONS ARE IN DEVELOPMENT · COMMANDS WORK NOW</p>
   </div></div>
 </div>
 <div id="rdlg" class="ovl" role="dialog" aria-modal="true" aria-labelledby="rTitle" hidden>

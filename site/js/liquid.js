@@ -53,14 +53,16 @@ function heroInit(){const sec=$('#top'),cv=$('#heroGL'),h1=$('#name');const L=Li
   $('#rGpu').textContent=gpuName(L.gl);if(matchMedia('(pointer:coarse)').matches)$('#hintT').textContent='TOUCH AND DRAG. THE NAME IS MAGNETIC.';return true;}
 async function heroLayout(){if(!HERO.L)return;await fontsReady;await document.fonts.ready;const{L,cv,h1}=HERO;L.size(.6,1.05);const t=nameTex(h1),cr=cv.getBoundingClientRect();L.setText(t.c);
   const R=HERO.rect=[t.rect[0]-cr.left,t.rect[1]-cr.top,t.rect[2],t.rect[3]];
-  HERO.drops=t.pts.slice(0,clamp(SET.drops|0,0,28)).map(([u,v])=>{const x=R[0]+u*R[2],y=R[1]+v*R[3];return{hx:x,hy:y,x,y,vx:0,vy:0,r:rnd(6,10.5)};});
+  /* scale the magnet to the name, so a phone-width name isn't swallowed by every droplet at once */
+  const k=HERO.k=clamp(R[2]/860,.42,1);
+  HERO.drops=t.pts.slice(0,clamp(SET.drops|0,0,28)).map(([u,v])=>{const x=R[0]+u*R[2],y=R[1]+v*R[3];return{hx:x,hy:y,x,y,vx:0,vy:0,r:rnd(6,10.5)*k};});
   HERO.ready=true;drawLeaders(HERO.textOn);if(RM)heroFrame(0,true);}
 function heroFrame(t,force){const H=HERO;if(!H.ready||(!H.vis&&!force))return;const L=H.L,dt=H.prev?Math.min(50,t-H.prev):16;H.prev=t;
   const R=H.rect,cx=R[0]+R[2]*.5,cy=R[1]+R[3]*.5,now=performance.now();let tx,ty,ts;
   if(H.ptr.on&&now-H.ptr.t<2600){tx=H.ptr.x;ty=H.ptr.y;ts=1;}else{tx=cx+Math.cos(t*.00027)*R[2]*.46;ty=cy+Math.sin(t*.00041)*R[3]*.56;ts=.6;}
   ts*=SET.magnet;if(!H.textOn||RM)ts=0;const m=H.mag;if(m.x<-100){m.x=tx;m.y=ty;}m.x+=(tx-m.x)*.13;m.y+=(ty-m.y)*.13;m.s+=(ts-m.s)*.035;H.pulse*=.95;const S=m.s*(1+H.pulse*.9);
-  const B=L.B;let n=0;if(S>.02){B[0]=m.x;B[1]=m.y;B[2]=12+11*Math.min(S,1.6);B[3]=.95*Math.min(S,1.6)*SET.spikes;n=1;}
-  for(const d of H.drops){let ax=(d.hx-d.x)*.02,ay=(d.hy-d.y)*.02;const dx=m.x-d.x,dy=m.y-d.y,dd=Math.hypot(dx,dy)+.01;if(dd<240&&S>.05){const f=1.2*S*SET.pull*(1-dd/240);ax+=dx/dd*f;ay+=dy/dd*f;}if(H.pulse>.4){ax+=(Math.random()-.5)*H.pulse*2.5;ay+=(Math.random()-.5)*H.pulse*2.5;}
+  const B=L.B,k=H.k||1,PR=240*k;let n=0;if(S>.02){B[0]=m.x;B[1]=m.y;B[2]=(12+11*Math.min(S,1.6))*Math.sqrt(k);B[3]=.95*Math.min(S,1.6)*SET.spikes;n=1;}
+  for(const d of H.drops){let ax=(d.hx-d.x)*.02,ay=(d.hy-d.y)*.02;const dx=m.x-d.x,dy=m.y-d.y,dd=Math.hypot(dx,dy)+.01;if(dd<PR&&S>.05){const f=1.2*S*SET.pull*(1-dd/PR);ax+=dx/dd*f;ay+=dy/dd*f;}if(H.pulse>.4){ax+=(Math.random()-.5)*H.pulse*2.5;ay+=(Math.random()-.5)*H.pulse*2.5;}
     d.vx=(d.vx+ax)*.86;d.vy=(d.vy+ay)*.86;d.x+=d.vx;d.y+=d.vy;const away=clamp(Math.hypot(d.x-d.hx,d.y-d.hy)/26);if(away>.02&&n<L.MAXB){B[n*4]=d.x;B[n*4+1]=d.y;B[n*4+2]=d.r*away;B[n*4+3]=0;n++;}}
   const[dep,met]=liqMat();Object.assign(L.S,{n,tr:R,ta:H.textOn?1:0,mag:[m.x,m.y,S],pull:18*SET.pull,metal:met,depth:dep,col:liqRGB(),lx:-.45+Math.sin(t*.00023)*.14,time:t*.001,th:1});L.render();
   H.fps.push(dt);if(H.fps.length>30)H.fps.shift();if(now-H.ro>500){H.ro=now;const avg=H.fps.reduce((a,b)=>a+b,0)/H.fps.length;$('#rFps').textContent=`${Math.round(1000/avg)} FPS · ${avg.toFixed(1)} MS`;$('#rMag').textContent=S>.05?`${Math.round(m.x)}, ${Math.round(m.y)} · ${H.ptr.on?'MANUAL':'AUTO'}`:'STANDBY';}}
@@ -74,7 +76,7 @@ function drawLeaders(anim){const svg=$('#leaders'),sec=$('#top');if(!svg)return;
 let bootL=null,booting=false;
 function runChecks(gpu){const ul=$('#bChk');ul.innerHTML='';const tz=(()=>{try{return new Intl.DateTimeFormat('en-CA',{hour:'2-digit',minute:'2-digit',timeZoneName:'short'}).format(new Date()).toUpperCase();}catch(e){return '—';}})();
   [['WEBGL','OK'],['GPU',gpu],['TYPEFACE',SET.dFont.toUpperCase()],['VIEWPORT',innerWidth+' × '+innerHeight],['LOCAL TIME',tz],['MOTION','FULL']].forEach(([k,v],i)=>{const li=document.createElement('li');li.innerHTML=`<span>${k}</span><i></i><b></b>`;li.querySelector('b').textContent=v;ul.append(li);setTimeout(()=>li.classList.add('in'),250+i*170);});}
-async function boot(){if(booting)return;if(RM||root.classList.contains('nogl')||!HERO.L){endBootQuick();return;}booting=true;if(typeof closeAllOverlays==='function')closeAllOverlays();scrollTo(0,0);
+async function boot(){if(booting)return;if(RM||root.classList.contains('nogl')||!HERO.L){endBootQuick();return;}booting=true;try{sessionStorage.setItem('akos-intro','1');}catch(e){}if(typeof closeAllOverlays==='function')closeAllOverlays();scrollTo(0,0);
   const ov=$('#boot');if(!bootL)bootL=Liquid($('#bootGL'),66);if(!bootL){booting=false;endBootQuick();return;}const L=bootL;
   ov.classList.add('on');ov.classList.remove('hud-in','out');ov.style.backgroundColor='';$('#bSub').classList.remove('in');
   document.body.classList.remove('booted');document.body.classList.add('booting');root.classList.remove('preboot');HERO.textOn=false;
