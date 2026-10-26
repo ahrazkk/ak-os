@@ -141,7 +141,7 @@ function downloadResume(r){const has=u=>fetch(u,{method:'HEAD'}).then(x=>{if(!x.
 /* ---------- command palette ---------- */
 const CMDS=[['Go to projects','NAV',()=>location.hash='projects'],['Go to experience','NAV',()=>location.hash='experience'],['Go to skills','NAV',()=>location.hash='skills'],['Go to contact','NAV',()=>location.hash='contact'],
   ['Open Project Aegis','PROJECT',()=>openProject('aegis')],['Open TransiNet','PROJECT',()=>openProject('transinet')],['Open 4Sight','PROJECT',()=>openProject('foursight')],['Open Augmented Analyst 2.0','PROJECT',()=>openProject('analyst')],
-  ['Download résumé','FILE',()=>openResume()],...(LAB_ON?[['Open design lab','SYSTEM',()=>openLab()]]:[]),['Theme: auto','THEME',()=>setTheme('auto')],['Theme: day','THEME',()=>setTheme('light')],['Theme: night','THEME',()=>setTheme('dark')],['Replay intro','SYSTEM',()=>boot()],
+  ['Download résumé','FILE',()=>openResume()],...(LAB_ON?[['Open design lab','SYSTEM',()=>openLab()]]:[]),['Theme: day','THEME',()=>setTheme('light')],['Theme: night','THEME',()=>setTheme('dark')],['Replay intro','SYSTEM',()=>boot()],
   ['Ask AK-OS a question','ASK',null,1]];
 const ASK_WIP="Ask AK-OS is still in development. It will answer questions about Ahraz's projects and experience, with a source for every claim. Until then, use the commands above or message him on LinkedIn.";
 let palSel=0,palItems=[];
@@ -152,10 +152,11 @@ function renderPal(){const q=$('#palIn').value.trim().toLowerCase();palItems=CMD
 function runPal(i){const c=palItems[i];if(!c)return;if(c[3]){$('#palAns').innerHTML=`<div class="ans"><div class="lbl" style="margin-bottom:6px">AK-OS · IN DEVELOPMENT</div>${ASK_WIP}</div>`;return;}closePal();c[2]();}
 
 /* ---------- theme + design lab ---------- */
-function applyTheme(m){if(m==='auto')root.removeAttribute('data-theme');else root.setAttribute('data-theme',m);SET.theme=m;saveSet();$$('[data-t]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.t===m)));$$('#lab [data-k="theme"]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===m)));readC();}
+/* day (white) is the default everywhere; night only when the visitor picks it */
+function applyTheme(m){m=m==='dark'?'dark':'light';root.setAttribute('data-theme',m);SET.theme=m;saveSet();$$('[data-t]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.t===m)));$$('#lab [data-k="theme"]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===m)));readC();}
 function setTheme(m){if(document.startViewTransition&&!RM)document.startViewTransition(()=>applyTheme(m));else applyTheme(m);}
 const ACC=[['mono','','INK'],['orange','#FF4F00','ORANGE'],['red','#E82127','RED'],['cyan','#00A9BC','CYAN'],['amber','#F2A100','AMBER']];
-const LAB=[{sec:'THEME',items:[{k:'theme',type:'seg',opts:[['auto','Auto'],['light','Day'],['dark','Night']]}]},
+const LAB=[{sec:'THEME',items:[{k:'theme',type:'seg',opts:[['light','Day'],['dark','Night']]}]},
   {sec:'ACCENT',items:[{k:'accent',type:'swatch'}]},
   {sec:'TYPE',items:[{k:'dFont',type:'select',label:'Name / display',opts:DFONTS.map(f=>[f[0],f[0]])},{k:'uiFont',type:'select',label:'Labels (mono)',opts:MFONTS.map(f=>[f[0],f[0]])},{k:'bodyFont',type:'select',label:'Body text',opts:BFONTS.map(f=>[f[0],f[0]])}]},
   {sec:'LIQUID METAL',items:[{k:'liqColor',type:'seg',label:'Color',opts:[['auto','Auto'],['white','White'],['ink','Black'],['accent','Accent'],['silver','Silver']]},{k:'liqStyle',type:'seg',label:'Style',opts:[['flat','2D flat'],['satin','3D satin'],['chrome','3D chrome']]},{k:'magnet',type:'range',label:'Magnet strength',min:0,max:2,step:.1},{k:'spikes',type:'range',label:'Spikes',min:0,max:2,step:.1},{k:'pull',type:'range',label:'Letter pull',min:0,max:2.5,step:.1},{k:'drops',type:'range',label:'Droplets',min:0,max:28,step:1}]},
@@ -177,7 +178,7 @@ function labInit(){if(!LAB_ON){['#lab','#labBtn'].forEach(s=>{const n=$(s);if(n)
   p.addEventListener('input',e=>{const i=e.target;if(!i.dataset||!i.dataset.k)return;if(i.type==='range')setS(i.dataset.k,+i.value);else if(i.type==='color'){SET.accentCustom=i.value;setS('accent','custom');}else setS(i.dataset.k,i.value);});
   $('#labX').onclick=closeLab;$('#labBtn').onclick=()=>p.classList.contains('open')?closeLab():openLab();
   $('#labCopy').onclick=()=>{const js=JSON.stringify(SET,null,2);const done=()=>toast('Settings copied. Paste them to Claude to lock this design in.');const fb=()=>{const o=$('#labOut');o.hidden=false;o.value=js;o.focus();o.select();toast('Copy the settings from the box below.');};try{navigator.clipboard.writeText(js).then(done,fb);}catch(err){fb();}};
-  $('#labReset').onclick=()=>{SET=Object.assign({},DEF);saveSet();applySet('reset');applyTheme('auto');syncLab();toast('Design reset to defaults.');};syncLab();}
+  $('#labReset').onclick=()=>{SET=Object.assign({},DEF);saveSet();applySet('reset');applyTheme('light');syncLab();toast('Design reset to defaults.');};syncLab();}
 function closeAllOverlays(){closePal();closeResume();closeProject();}
 
 /* ---------- global wiring ---------- */
@@ -190,7 +191,7 @@ function wireGlobal(){$('#palIn').addEventListener('input',()=>{palSel=0;renderP
   $$('#theme [data-t]').forEach(b=>b.onclick=()=>setTheme(b.dataset.t));
   document.addEventListener('keydown',e=>{const typing=/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName);if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();$('#pal').hidden?openPal():closePal();return;}
     if(e.key==='Escape'){if(!$('#pal').hidden)closePal();else if(!$('#rdlg').hidden)closeResume();else if(sheetId)closeProject();else closeLab();return;}if(typing||e.metaKey||e.ctrlKey||e.altKey||booting)return;if(e.key==='/'){e.preventDefault();openPal();}
-    if(e.key==='t'||e.key==='T'){const cur=root.getAttribute('data-theme')||'auto';setTheme(cur==='auto'?'light':cur==='light'?'dark':'auto');}});
+    if(e.key==='t'||e.key==='T')setTheme(root.getAttribute('data-theme')==='dark'?'light':'dark');});
   $('#cform').addEventListener('submit',e=>{e.preventDefault();const n=$('#cName').value.trim(),m=$('#cMail').value.trim(),g=$('#cMsg').value.trim(),err=$('#cErr');if(!n||!m||!g){err.textContent='Fill in your name, email and message.';return;}if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m)){err.textContent='Enter a valid email, like jordan@company.com.';return;}err.textContent='';if($('#cHp').value){e.target.reset();toast('Message sent.');return;}
     if(CONTACT.form){fetch(CONTACT.form,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({name:n,email:m,message:g})}).then(r=>{if(!r.ok)throw 0;e.target.reset();toast(`Message sent. Ahraz will reply to ${m}.`);}).catch(()=>{err.textContent='Sending failed. Try LinkedIn instead.';});return;}
     if(CONTACT.email){location.href=`mailto:${CONTACT.email}?subject=${encodeURIComponent('Hello from '+n)}&body=${encodeURIComponent(g+'\n\n'+n+' · '+m)}`;return;}
@@ -198,4 +199,4 @@ function wireGlobal(){$('#palIn').addEventListener('input',()=>{palSel=0;renderP
   ['cName','cMail','cMsg'].forEach(id=>$('#'+id).addEventListener('input',()=>{$('#cErr').textContent='';}));
   const MET0=Date.UTC(2024,8,5,13,0,0),tick=()=>{const d=new Date();$('#utc').textContent=d.toISOString().slice(11,19);let s=Math.floor((d-MET0)/1000);const dd=Math.floor(s/86400);s%=86400;const p=v=>String(v).padStart(2,'0');$('#met').textContent=`T+${dd}D ${p(Math.floor(s/3600))}:${p(Math.floor(s%3600/60))}:${p(s%60)}`;};tick();setInterval(tick,1000);
   addEventListener('hashchange',()=>{const id=projectFromHash();if(id)openProject(id);else closeProject();});
-  matchMedia('(prefers-color-scheme: dark)').addEventListener('change',readC);addEventListener('resize',()=>{if(HERO.ready)drawLeaders(true);});}
+  addEventListener('resize',()=>{if(HERO.ready)drawLeaders(true);});}

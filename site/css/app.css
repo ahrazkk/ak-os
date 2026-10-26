@@ -8,8 +8,7 @@
   --f-mono:"Geist Mono","JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
   --gut:clamp(16px,3vw,48px);--maxw:1680px;--grid-size:48px;
 }
-/* "auto" follows a dark system theme only on mouse devices: phones and tablets default to light */
-@media (prefers-color-scheme:dark) and (hover:hover){:root:not([data-theme="light"]){--bg:#060709;--panel:#0C0E11;--panel-2:#101317;--ink:#E9E7E1;--mut:#9D9C96;--faint:#66665F;--line:#2C3035;--line-soft:#1A1D21;--grid:rgba(233,231,225,.04);--sig:#FF5146;color-scheme:dark}}
+/* day (white) is the default; night only when the visitor picks it in the header */
 :root[data-theme="dark"]{--bg:#060709;--panel:#0C0E11;--panel-2:#101317;--ink:#E9E7E1;--mut:#9D9C96;--faint:#66665F;--line:#2C3035;--line-soft:#1A1D21;--grid:rgba(233,231,225,.04);--sig:#FF5146;color-scheme:dark}
 :root[data-accent="orange"]{--acc:#FF4F00;--on-acc:#111214;--acc-text:color-mix(in oklab,#FF4F00 70%,var(--ink))}
 :root[data-accent="red"]{--acc:#E82127;--on-acc:#FFFFFF;--acc-text:color-mix(in oklab,#E82127 78%,var(--ink))}

@@ -14,7 +14,7 @@ function rrect(x,X,Y,W,H,r){x.beginPath();x.moveTo(X+r,Y);x.lineTo(X+W-r,Y);x.ar
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),3800);}
 
 /* ---------- design lab settings ---------- */
-const DEF={theme:'auto',accent:'mono',accentCustom:'#2F6BFF',dFont:'Michroma',uiFont:'Geist Mono',bodyFont:'Geist',liqColor:'auto',liqStyle:'flat',magnet:1,spikes:1,pull:1,drops:24,intro:'on',tlStyle:'flow',corners:'chamfer',grid:'on',gridSize:48,width:'wide'};
+const DEF={theme:'light',accent:'mono',accentCustom:'#2F6BFF',dFont:'Michroma',uiFont:'Geist Mono',bodyFont:'Geist',liqColor:'auto',liqStyle:'flat',magnet:1,spikes:1,pull:1,drops:24,intro:'on',tlStyle:'flow',corners:'chamfer',grid:'on',gridSize:48,width:'wide'};
 /* the lab only opens with ?lab; everyone else gets the approved defaults plus their theme */
 const LAB_ON=/[?&]lab\b/.test(location.search);
 let SET=Object.assign({},DEF);try{const s=JSON.parse(localStorage.getItem('akos3')||'{}');if(LAB_ON)Object.assign(SET,s);else if(s.theme)SET.theme=s.theme;}catch(e){}

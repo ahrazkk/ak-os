@@ -1,6 +1,6 @@
 /* main: start-up order */
 applySet('init');
-applyTheme(SET.theme==='light'||SET.theme==='dark'?SET.theme:'auto');
+applyTheme(SET.theme);
 const heroOK=heroInit();
 renderProjects();expInit();graph=Graph3D($('#graph'),$('#gpanel'));flapsInit();setupJD();labInit();wireGlobal();
 if(!RM)requestAnimationFrame(loop);
