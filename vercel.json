@@ -3,14 +3,14 @@
   "outputDirectory": "site",
   "redirects": [
     {
-      "source": "/:path*",
+      "source": "/:path(.*)",
       "has": [
         {
           "type": "host",
           "value": "www.hireahraz.dev"
         }
       ],
-      "destination": "https://hireahraz.dev/:path*",
+      "destination": "https://hireahraz.dev/:path",
       "permanent": true
     }
   ],
