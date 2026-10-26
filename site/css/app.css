@@ -8,7 +8,8 @@
   --f-mono:"Geist Mono","JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
   --gut:clamp(16px,3vw,48px);--maxw:1680px;--grid-size:48px;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#060709;--panel:#0C0E11;--panel-2:#101317;--ink:#E9E7E1;--mut:#9D9C96;--faint:#66665F;--line:#2C3035;--line-soft:#1A1D21;--grid:rgba(233,231,225,.04);--sig:#FF5146;color-scheme:dark}}
+/* "auto" follows a dark system theme only on mouse devices: phones and tablets default to light */
+@media (prefers-color-scheme:dark) and (hover:hover){:root:not([data-theme="light"]){--bg:#060709;--panel:#0C0E11;--panel-2:#101317;--ink:#E9E7E1;--mut:#9D9C96;--faint:#66665F;--line:#2C3035;--line-soft:#1A1D21;--grid:rgba(233,231,225,.04);--sig:#FF5146;color-scheme:dark}}
 :root[data-theme="dark"]{--bg:#060709;--panel:#0C0E11;--panel-2:#101317;--ink:#E9E7E1;--mut:#9D9C96;--faint:#66665F;--line:#2C3035;--line-soft:#1A1D21;--grid:rgba(233,231,225,.04);--sig:#FF5146;color-scheme:dark}
 :root[data-accent="orange"]{--acc:#FF4F00;--on-acc:#111214;--acc-text:color-mix(in oklab,#FF4F00 70%,var(--ink))}
 :root[data-accent="red"]{--acc:#E82127;--on-acc:#FFFFFF;--acc-text:color-mix(in oklab,#E82127 78%,var(--ink))}
@@ -112,7 +113,7 @@ kbd{font:500 10px var(--f-mono);border:1px solid currentColor;padding:1px 5px;op
 .sh h2{margin:0;font-size:inherit;line-height:1}
 .sh p{grid-column:1/-1;margin:2px 0 0;color:var(--mut);font-size:14.5px;max-width:52em}
 .flap{display:inline-flex;gap:3px;flex-wrap:wrap}
-.flap .c{display:inline-grid;place-items:center;width:calc(1ch + 12px);height:1.55em;font:500 clamp(18px,2.1vw,30px)/1 var(--f-mono);background:var(--panel-2);border:1px solid var(--line-soft);position:relative;color:var(--ink)}
+.flap .c{display:inline-grid;place-items:center;width:calc(1ch + 12px);height:1.55em;font:500 clamp(18px,2.1vw,30px)/1 var(--f-mono);background:var(--ink);border:1px solid var(--ink);position:relative;color:var(--bg)}
 .flap .c::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:var(--bg)}
 .flap .c.sp{background:transparent;border-color:transparent}
 .flap .c.sp::after{display:none}
@@ -474,6 +475,9 @@ body.booted .rv{animation:rv .9s cubic-bezier(.6,0,.2,1) both;animation-delay:ca
   .p,.p.flag{grid-column:1/-1}
   .vz,.p:not(.flag) .vz{height:280px}
   .bt,.ro,#labBtn span,.brand .gs,.top .kbtn{display:none}
+  .sh{grid-template-columns:minmax(0,1fr)}
+  .flap{flex-wrap:nowrap}
+  .flap .c{font-size:clamp(14px,4.4vw,18px)}
   .top .row{gap:10px}
   .arow{grid-template-columns:44px minmax(0,1fr) 18px}
   .arow .d,.arow .lbl{display:none}

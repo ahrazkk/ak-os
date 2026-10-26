@@ -38,7 +38,7 @@ function applySet(k){const s=SET;
   readC();
   const fl=[loadFont(df[0],df[1],df[2]?'':String(df[1])),loadFont(mf[0],400,mf[1]),loadFont(bf[0],400,bf[1])];
   if(k==='dFont'||k==='drops'||k==='reset'||k==='init')Promise.all(fl).then(()=>{if(typeof heroLayout==='function')heroLayout();});}
-function readC(){const cs=getComputedStyle(root);for(const k of['bg','panel','panel-2','ink','mut','faint','line','line-soft','sig','boot','acc'])C[k]=cs.getPropertyValue('--'+k).trim();DARK=hex2rgb(C.bg)[0]<.3;if(RM)setTimeout(()=>{if(typeof staticAll==='function')staticAll();},0);}
+function readC(){const cs=getComputedStyle(root);for(const k of['bg','panel','panel-2','ink','mut','faint','line','line-soft','sig','boot','acc'])C[k]=cs.getPropertyValue('--'+k).trim();DARK=hex2rgb(C.bg)[0]<.3;const tc=document.querySelector('meta[name="theme-color"]');if(tc)tc.content=C.bg;if(RM)setTimeout(()=>{if(typeof staticAll==='function')staticAll();},0);}
 function liqRGB(){const s=SET.liqColor;if(s==='white')return[1,1,1];if(s==='ink')return hex2rgb(C.ink);if(s==='accent')return hex2rgb(C.acc);if(s==='silver')return[.78,.8,.84];return DARK?[1,1,1]:hex2rgb(C.ink);}
 function liqMat(){return SET.liqStyle==='flat'?[0,0]:SET.liqStyle==='chrome'?[1,1]:[1,0];}
 
