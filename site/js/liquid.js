@@ -36,11 +36,11 @@ function Liquid(cv,want){const gl=cv.getContext('webgl',{premultipliedAlpha:true
     setText(c){gl.bindTexture(gl.TEXTURE_2D,tex);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,c);},
     render(){gl.useProgram(pr);gl.uniform2f(U.uRes,cv.width,cv.height);gl.uniform1f(U.uPx,px);gl.uniform4fv(U.uB,B);gl.uniform1i(U.uN,S.n);gl.uniform4f(U.uTR,S.tr[0],S.tr[1],S.tr[2],S.tr[3]);gl.uniform1f(U.uTA,S.ta);gl.uniform3f(U.uMag,S.mag[0],S.mag[1],S.mag[2]);gl.uniform1f(U.uPull,S.pull);gl.uniform1f(U.uMetal,S.metal);gl.uniform1f(U.uDepth,S.depth);gl.uniform3f(U.uCol,S.col[0],S.col[1],S.col[2]);gl.uniform1f(U.uLX,S.lx);gl.uniform1f(U.uTime,S.time);gl.uniform1f(U.uTh,S.th);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);gl.drawArrays(gl.TRIANGLES,0,3);}};}
 function gpuName(gl){try{const e=gl.getExtension('WEBGL_debug_renderer_info');let s=e?gl.getParameter(e.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER);const m=/ANGLE \((.*)\)/.exec(s);if(m){const p=m[1].split(', ');s=p[1]||p[0];}s=String(s).replace(/\s*(Direct3D|vs_\d|ps_\d|OpenGL|Metal|\(0x).*$/i,'').replace(/\((TM|R)\)/gi,'').trim();return(s||'WEBGL').toUpperCase();}catch(e){return 'WEBGL';}}
-/* touch screens get a sharper, higher-resolution name: less blur means crisp corners instead of bubbly ones */
+/* a tight blur keeps crisp letter corners instead of bubbly ones; touch screens get a gentler magnet */
 const TOUCH=matchMedia('(hover:none)').matches;
-function nameTex(h1){const r=h1.getBoundingClientRect(),cs=getComputedStyle(h1),fs=parseFloat(cs.fontSize),ls=parseFloat(cs.letterSpacing)||0,pad=Math.round(fs*.4),tq=Math.min(TOUCH?2:1.5,devicePixelRatio||1);
+function nameTex(h1){const r=h1.getBoundingClientRect(),cs=getComputedStyle(h1),fs=parseFloat(cs.fontSize),ls=parseFloat(cs.letterSpacing)||0,pad=Math.round(fs*.4),tq=Math.min(2,devicePixelRatio||1);
   const W=Math.ceil((r.width+2*pad)*tq),H=Math.ceil((r.height+2*pad)*tq),c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d',{willReadFrequently:true});
-  const OFF=6000;x.setTransform(tq,0,0,tq,0,0);x.font=`${cs.fontWeight} ${fs}px ${cs.fontFamily}`;x.textBaseline='middle';x.fillStyle='#fff';x.shadowColor='#fff';x.shadowBlur=(TOUCH?Math.max(1.5,fs*.028):Math.max(3,fs*.055))*tq;x.shadowOffsetX=OFF*tq;
+  const OFF=6000;x.setTransform(tq,0,0,tq,0,0);x.font=`${cs.fontWeight} ${fs}px ${cs.fontFamily}`;x.textBaseline='middle';x.fillStyle='#fff';x.shadowColor='#fff';x.shadowBlur=Math.max(1.5,fs*.028)*tq;x.shadowOffsetX=OFF*tq;
   for(const sp of $$('.ln',h1)){const lr=sp.getBoundingClientRect();let cx=lr.left-r.left+pad-OFF;const cy=lr.top-r.top+pad+lr.height*.52;for(const ch of sp.textContent){x.fillText(ch,cx,cy);cx+=x.measureText(ch).width+ls;}}
   const d=x.getImageData(0,0,W,H).data,pts=[];for(let i=0;i<9000&&pts.length<420;i++){const px=Math.random()*W|0,py=Math.random()*H|0;if(d[(py*W+px)*4+3]>215)pts.push([px/W,py/H]);}
   return{c,rect:[r.left-pad,r.top-pad,r.width+2*pad,r.height+2*pad],pts};}
@@ -48,12 +48,12 @@ function nameTex(h1){const r=h1.getBoundingClientRect(),cs=getComputedStyle(h1),
 /* ---------- hero: magnetic liquid name ---------- */
 const HERO={};
 function heroInit(){const sec=$('#top'),cv=$('#heroGL'),h1=$('#name');const L=Liquid(cv,32);if(!L){root.classList.add('nogl');return false;}
-  Object.assign(HERO,{L,sec,cv,h1,drops:[],mag:{x:-200,y:-200,s:0},ptr:{on:false,x:0,y:0,t:0},pulse:0,vis:true,ready:false,textOn:false,prev:0,fps:[],ro:0});
+  Object.assign(HERO,{L,sec,cv,h1,drops:[],mag:{x:-200,y:-200,s:0},ptr:{on:false,x:0,y:0,t:0},pulse:0,vis:true,ready:false,textOn:false,prev:0,fps:[],ro:0,q:1,slow:0});
   const pos=e=>{const r=cv.getBoundingClientRect();HERO.ptr={on:true,x:e.clientX-r.left,y:e.clientY-r.top,t:performance.now()};};
   sec.addEventListener('pointermove',e=>{pos(e);$('#hint').classList.add('gone');});sec.addEventListener('pointerleave',()=>{HERO.ptr.on=false;});sec.addEventListener('pointerdown',e=>{pos(e);HERO.pulse=1;});
   regVis(sec,HERO);new ResizeObserver(()=>heroLayout()).observe(sec);FRAMERS.push(heroFrame);
   $('#rGpu').textContent=gpuName(L.gl);if(matchMedia('(pointer:coarse)').matches)$('#hintT').textContent='TOUCH AND DRAG. THE NAME IS MAGNETIC.';return true;}
-async function heroLayout(){if(!HERO.L)return;await fontsReady;await document.fonts.ready;const{L,cv,h1}=HERO;if(TOUCH)L.size(1,2);else L.size(.6,1.05);const t=nameTex(h1),cr=cv.getBoundingClientRect();L.setText(t.c);
+async function heroLayout(){if(!HERO.L)return;await fontsReady;await document.fonts.ready;const{L,cv,h1}=HERO;L.size(HERO.q,2);const t=nameTex(h1),cr=cv.getBoundingClientRect();L.setText(t.c);
   const R=HERO.rect=[t.rect[0]-cr.left,t.rect[1]-cr.top,t.rect[2],t.rect[3]];
   /* scale the magnet to the name, so a phone-width name isn't swallowed by every droplet at once */
   const k=HERO.k=clamp(R[2]/860,.42,1);
@@ -67,7 +67,9 @@ function heroFrame(t,force){const H=HERO;if(!H.ready||(!H.vis&&!force))return;co
   for(const d of H.drops){let ax=(d.hx-d.x)*.02,ay=(d.hy-d.y)*.02;const dx=m.x-d.x,dy=m.y-d.y,dd=Math.hypot(dx,dy)+.01;if(dd<PR&&S>.05){const f=1.2*S*SET.pull*(1-dd/PR);ax+=dx/dd*f;ay+=dy/dd*f;}if(H.pulse>.4){ax+=(Math.random()-.5)*H.pulse*2.5;ay+=(Math.random()-.5)*H.pulse*2.5;}
     d.vx=(d.vx+ax)*.86;d.vy=(d.vy+ay)*.86;d.x+=d.vx;d.y+=d.vy;const away=clamp(Math.hypot(d.x-d.hx,d.y-d.hy)/26);if(away>.02&&n<L.MAXB){B[n*4]=d.x;B[n*4+1]=d.y;B[n*4+2]=d.r*away;B[n*4+3]=0;n++;}}
   const[dep,met]=liqMat();Object.assign(L.S,{n,tr:R,ta:H.textOn?1:0,mag:[m.x,m.y,S],pull:18*SET.pull,metal:met,depth:dep,col:liqRGB(),lx:-.45+Math.sin(t*.00023)*.14,time:t*.001,th:1});L.render();
-  H.fps.push(dt);if(H.fps.length>30)H.fps.shift();if(now-H.ro>500){H.ro=now;const avg=H.fps.reduce((a,b)=>a+b,0)/H.fps.length;$('#rFps').textContent=`${Math.round(1000/avg)} FPS · ${avg.toFixed(1)} MS`;$('#rMag').textContent=S>.05?`${Math.round(m.x)}, ${Math.round(m.y)} · ${H.ptr.on?'MANUAL':'AUTO'}`:'STANDBY';}}
+  H.fps.push(dt);if(H.fps.length>30)H.fps.shift();if(now-H.ro>500){H.ro=now;const avg=H.fps.reduce((a,b)=>a+b,0)/H.fps.length;$('#rFps').textContent=`${Math.round(1000/avg)} FPS · ${avg.toFixed(1)} MS`;$('#rMag').textContent=S>.05?`${Math.round(m.x)}, ${Math.round(m.y)} · ${H.ptr.on?'MANUAL':'AUTO'}`:'STANDBY';
+    /* full resolution keeps the name sharp; step down only if two half-second windows in a row run under ~45 fps */
+    if(H.q>.6&&H.fps.length>=30&&avg>22){if(++H.slow>=2){H.q=Math.max(.6,+(H.q-.2).toFixed(1));H.slow=0;H.fps.length=0;L.size(H.q,2);}}else H.slow=0;}}
 function drawLeaders(anim){const svg=$('#leaders'),sec=$('#top');if(!svg)return;if(innerWidth<900){svg.innerHTML='';return;}const sr=sec.getBoundingClientRect(),lines=$$('#name .ln');if(!lines.length)return;
   const AN=[[0,.17,.32],[0,.9,.36],[1,.36,.62],[1,.93,.5]],cos=$$('.co',sec);let s='';
   cos.forEach((co,i)=>{const[li,fx,fy]=AN[i],lr=lines[li].getBoundingClientRect(),cr=co.getBoundingClientRect();const ax=lr.left-sr.left+fx*lr.width,ay=lr.top-sr.top+fy*lr.height,bx=cr.left-sr.left-8,by=cr.top-sr.top+cr.height/2,ex=Math.max(ax+20,bx-34);
