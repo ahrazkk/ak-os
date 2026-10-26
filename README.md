@@ -131,7 +131,7 @@ The scripts are plain classic scripts loaded in order and sharing globals. That 
 - The intro plays once per browser session. It is skipped for reduced-motion users, for bots and when someone opens a project link directly.
 - `prefers-reduced-motion` turns every animation into a static frame.
 - Keyboard: `⌘K`/`Ctrl+K` or `/` for the palette, `T` for theme, `Esc` to close, and arrow keys in lists.
-- No cookies, no trackers and no third-party scripts. The only external requests are Google Fonts.
+- No cookies and no third-party trackers. Visits are counted with Vercel's first-party, cookie-free Web Analytics, and the only external requests are Google Fonts.
 - Without WebGL the site falls back to plain text and still works.
 
 ---
