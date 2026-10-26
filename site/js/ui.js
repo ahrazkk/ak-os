@@ -132,6 +132,11 @@ function runJD(){const t=$('#jdIn').value.trim(),out=$('#jdOut');if(!t){out.inne
 /* ---------- résumé picker ---------- */
 function openResume(){closePal();const d=$('#rdlg');$('#rList').innerHTML=RESUMES.map(r=>`<li><button type="button" data-r="${r.id}"><b>${r.t}</b><span>${r.d}</span><em>PDF ↓</em></button></li>`).join('');d.hidden=false;setTimeout(()=>{const b=$('#rList button');if(b)b.focus();},30);}
 function closeResume(){$('#rdlg').hidden=true;}
+/* a version without its own PDF yet falls back to the Software Engineering résumé */
+function downloadResume(r){const has=u=>fetch(u,{method:'HEAD'}).then(x=>{if(!x.ok)throw 0;return u;});
+  has(`resumes/Ahraz_Kibria_${r.f}.pdf`).catch(()=>has('resumes/Ahraz_Kibria_Software_Engineering.pdf'))
+    .then(u=>{const a=document.createElement('a');a.href=u;a.download='';document.body.append(a);a.click();a.remove();})
+    .catch(()=>toast(`The ${r.t} résumé is being updated. Message Ahraz on LinkedIn for a copy.`));}
 
 /* ---------- command palette ---------- */
 const CMDS=[['Go to projects','NAV',()=>location.hash='projects'],['Go to experience','NAV',()=>location.hash='experience'],['Go to skills','NAV',()=>location.hash='skills'],['Go to contact','NAV',()=>location.hash='contact'],
@@ -178,9 +183,9 @@ function closeAllOverlays(){closePal();closeResume();closeProject();}
 /* ---------- global wiring ---------- */
 function wireGlobal(){$('#palIn').addEventListener('input',()=>{palSel=0;renderPal();});
   $('#palIn').addEventListener('keydown',e=>{if(e.key==='ArrowDown'){palSel=Math.min(palItems.length-1,palSel+1);renderPal();e.preventDefault();}else if(e.key==='ArrowUp'){palSel=Math.max(0,palSel-1);renderPal();e.preventDefault();}else if(e.key==='Enter'){runPal(palSel);e.preventDefault();}});
-  $('#pal').addEventListener('click',e=>{if(e.target.id==='pal')closePal();});$('#rdlg').addEventListener('click',e=>{if(e.target.id==='rdlg')closeResume();const b=e.target.closest('[data-r]');if(b){const r=RESUMES.find(q=>q.id===b.dataset.r),url=`resumes/Ahraz_Kibria_${r.f}.pdf`;closeResume();
-    fetch(url,{method:'HEAD'}).then(x=>{if(!x.ok)throw 0;const a=document.createElement('a');a.href=url;a.download='';document.body.append(a);a.click();a.remove();}).catch(()=>toast(`The ${r.t} résumé is being updated. Message Ahraz on LinkedIn for a copy.`));}});$('#rClose').onclick=closeResume;
-  const CMD={pal:openPal,replay:()=>{closeLab();boot();},resume:openResume,lab:openLab};
+  $('#pal').addEventListener('click',e=>{if(e.target.id==='pal')closePal();});$('#rdlg').addEventListener('click',e=>{if(e.target.id==='rdlg')closeResume();const b=e.target.closest('[data-r]');if(b){closeResume();downloadResume(RESUMES.find(q=>q.id===b.dataset.r));}});$('#rClose').onclick=closeResume;
+  const CMD={pal:openPal,replay:()=>{closeLab();boot();},resume:openResume,lab:openLab,email:()=>{location.href='mailto:'+CONTACT.email;}};
+  if(CONTACT.email)$('#cEmail').textContent=CONTACT.email;else $('#cEmailRow').remove();
   document.addEventListener('click',e=>{const b=e.target.closest('[data-cmd]');if(b&&CMD[b.dataset.cmd]){CMD[b.dataset.cmd]();return;}const o=e.target.closest('[data-open]');if(o){e.stopPropagation();openProject(o.dataset.open);}});
   $$('#theme [data-t]').forEach(b=>b.onclick=()=>setTheme(b.dataset.t));
   document.addEventListener('keydown',e=>{const typing=/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName);if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();$('#pal').hidden?openPal():closePal();return;}

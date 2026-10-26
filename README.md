@@ -1,6 +1,6 @@
 # AK-OS · Ground Station
 
-**The portfolio of Ahraz Kibria, software and AI engineer in Toronto.**
+**The portfolio of Ahraz Kibria, software and AI engineer in Toronto.** Live at **[hireahraz.dev](https://hireahraz.dev)**.
 
 The site is drawn like an engineering sheet and runs like a mission-control console. The name in the hero is liquid metal that follows your cursor. Every project card is a working instrument rather than a screenshot, and each project opens into a full write-up with a generated system-design diagram.
 
@@ -180,8 +180,8 @@ Everything a visitor reads lives in [`site/js/data.js`](site/js/data.js):
 - **`P`**: one entry per project. It holds the card fields (`name`, `line`, `metrics`, `stack`, `badge`) and the page sections (`summary`, `caps`, `arch`, `flow`, `theory`, `tiles`, `results`, `decisions`, `next`). The `arch` object lists `nodes` as `[id, label, sub, col, row, kind]` and `edges` as `[from, to, label, dashed]`. The diagram is generated from these.
 - **`EV`**: the experience timeline.
 - **`LINKS`**, **`CAT`**: the skills graph, mapping each project or role to the skills it proves.
-- **`RESUMES`**: résumé versions. Put the PDFs in `site/resumes/` named `Ahraz_Kibria_<f>.pdf` (for example `Ahraz_Kibria_Software_Engineering.pdf`). A version without a file shows a polite "being updated" message.
-- **`CONTACT`**: set `form` to a [Formspree](https://formspree.io) endpoint, or `email` for a `mailto:` fallback. With neither set, the form points visitors to LinkedIn.
+- **`RESUMES`**: résumé versions. Put the PDFs in `site/resumes/` named `Ahraz_Kibria_<f>.pdf` (for example `Ahraz_Kibria_Software_Engineering.pdf`). A version without its own PDF downloads the Software Engineering one.
+- **`CONTACT`**: `email` powers the contact form (it opens the visitor's mail app) and the EMAIL link. Set `form` to a [Formspree](https://formspree.io) endpoint to send messages without a mail app.
 
 ---
 
