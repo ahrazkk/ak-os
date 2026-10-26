@@ -36,9 +36,11 @@ function Liquid(cv,want){const gl=cv.getContext('webgl',{premultipliedAlpha:true
     setText(c){gl.bindTexture(gl.TEXTURE_2D,tex);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,c);},
     render(){gl.useProgram(pr);gl.uniform2f(U.uRes,cv.width,cv.height);gl.uniform1f(U.uPx,px);gl.uniform4fv(U.uB,B);gl.uniform1i(U.uN,S.n);gl.uniform4f(U.uTR,S.tr[0],S.tr[1],S.tr[2],S.tr[3]);gl.uniform1f(U.uTA,S.ta);gl.uniform3f(U.uMag,S.mag[0],S.mag[1],S.mag[2]);gl.uniform1f(U.uPull,S.pull);gl.uniform1f(U.uMetal,S.metal);gl.uniform1f(U.uDepth,S.depth);gl.uniform3f(U.uCol,S.col[0],S.col[1],S.col[2]);gl.uniform1f(U.uLX,S.lx);gl.uniform1f(U.uTime,S.time);gl.uniform1f(U.uTh,S.th);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);gl.drawArrays(gl.TRIANGLES,0,3);}};}
 function gpuName(gl){try{const e=gl.getExtension('WEBGL_debug_renderer_info');let s=e?gl.getParameter(e.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER);const m=/ANGLE \((.*)\)/.exec(s);if(m){const p=m[1].split(', ');s=p[1]||p[0];}s=String(s).replace(/\s*(Direct3D|vs_\d|ps_\d|OpenGL|Metal|\(0x).*$/i,'').replace(/\((TM|R)\)/gi,'').trim();return(s||'WEBGL').toUpperCase();}catch(e){return 'WEBGL';}}
-function nameTex(h1){const r=h1.getBoundingClientRect(),cs=getComputedStyle(h1),fs=parseFloat(cs.fontSize),ls=parseFloat(cs.letterSpacing)||0,pad=Math.round(fs*.4),tq=Math.min(1.5,devicePixelRatio||1);
+/* touch screens get a sharper, higher-resolution name: less blur means crisp corners instead of bubbly ones */
+const TOUCH=matchMedia('(hover:none)').matches;
+function nameTex(h1){const r=h1.getBoundingClientRect(),cs=getComputedStyle(h1),fs=parseFloat(cs.fontSize),ls=parseFloat(cs.letterSpacing)||0,pad=Math.round(fs*.4),tq=Math.min(TOUCH?2:1.5,devicePixelRatio||1);
   const W=Math.ceil((r.width+2*pad)*tq),H=Math.ceil((r.height+2*pad)*tq),c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d',{willReadFrequently:true});
-  const OFF=6000;x.setTransform(tq,0,0,tq,0,0);x.font=`${cs.fontWeight} ${fs}px ${cs.fontFamily}`;x.textBaseline='middle';x.fillStyle='#fff';x.shadowColor='#fff';x.shadowBlur=Math.max(3,fs*.055)*tq;x.shadowOffsetX=OFF*tq;
+  const OFF=6000;x.setTransform(tq,0,0,tq,0,0);x.font=`${cs.fontWeight} ${fs}px ${cs.fontFamily}`;x.textBaseline='middle';x.fillStyle='#fff';x.shadowColor='#fff';x.shadowBlur=(TOUCH?Math.max(1.5,fs*.028):Math.max(3,fs*.055))*tq;x.shadowOffsetX=OFF*tq;
   for(const sp of $$('.ln',h1)){const lr=sp.getBoundingClientRect();let cx=lr.left-r.left+pad-OFF;const cy=lr.top-r.top+pad+lr.height*.52;for(const ch of sp.textContent){x.fillText(ch,cx,cy);cx+=x.measureText(ch).width+ls;}}
   const d=x.getImageData(0,0,W,H).data,pts=[];for(let i=0;i<9000&&pts.length<420;i++){const px=Math.random()*W|0,py=Math.random()*H|0;if(d[(py*W+px)*4+3]>215)pts.push([px/W,py/H]);}
   return{c,rect:[r.left-pad,r.top-pad,r.width+2*pad,r.height+2*pad],pts};}
@@ -51,7 +53,7 @@ function heroInit(){const sec=$('#top'),cv=$('#heroGL'),h1=$('#name');const L=Li
   sec.addEventListener('pointermove',e=>{pos(e);$('#hint').classList.add('gone');});sec.addEventListener('pointerleave',()=>{HERO.ptr.on=false;});sec.addEventListener('pointerdown',e=>{pos(e);HERO.pulse=1;});
   regVis(sec,HERO);new ResizeObserver(()=>heroLayout()).observe(sec);FRAMERS.push(heroFrame);
   $('#rGpu').textContent=gpuName(L.gl);if(matchMedia('(pointer:coarse)').matches)$('#hintT').textContent='TOUCH AND DRAG. THE NAME IS MAGNETIC.';return true;}
-async function heroLayout(){if(!HERO.L)return;await fontsReady;await document.fonts.ready;const{L,cv,h1}=HERO;L.size(.6,1.05);const t=nameTex(h1),cr=cv.getBoundingClientRect();L.setText(t.c);
+async function heroLayout(){if(!HERO.L)return;await fontsReady;await document.fonts.ready;const{L,cv,h1}=HERO;if(TOUCH)L.size(1,2);else L.size(.6,1.05);const t=nameTex(h1),cr=cv.getBoundingClientRect();L.setText(t.c);
   const R=HERO.rect=[t.rect[0]-cr.left,t.rect[1]-cr.top,t.rect[2],t.rect[3]];
   /* scale the magnet to the name, so a phone-width name isn't swallowed by every droplet at once */
   const k=HERO.k=clamp(R[2]/860,.42,1);
@@ -60,7 +62,7 @@ async function heroLayout(){if(!HERO.L)return;await fontsReady;await document.fo
 function heroFrame(t,force){const H=HERO;if(!H.ready||(!H.vis&&!force))return;const L=H.L,dt=H.prev?Math.min(50,t-H.prev):16;H.prev=t;
   const R=H.rect,cx=R[0]+R[2]*.5,cy=R[1]+R[3]*.5,now=performance.now();let tx,ty,ts;
   if(H.ptr.on&&now-H.ptr.t<2600){tx=H.ptr.x;ty=H.ptr.y;ts=1;}else{tx=cx+Math.cos(t*.00027)*R[2]*.46;ty=cy+Math.sin(t*.00041)*R[3]*.56;ts=.6;}
-  ts*=SET.magnet;if(!H.textOn||RM)ts=0;const m=H.mag;if(m.x<-100){m.x=tx;m.y=ty;}m.x+=(tx-m.x)*.13;m.y+=(ty-m.y)*.13;m.s+=(ts-m.s)*.035;H.pulse*=.95;const S=m.s*(1+H.pulse*.9);
+  ts*=SET.magnet*(TOUCH?.35:1);if(!H.textOn||RM)ts=0;const m=H.mag;if(m.x<-100){m.x=tx;m.y=ty;}m.x+=(tx-m.x)*.13;m.y+=(ty-m.y)*.13;m.s+=(ts-m.s)*.035;H.pulse*=.95;const S=m.s*(1+H.pulse*.9);
   const B=L.B,k=H.k||1,PR=240*k;let n=0;if(S>.02){B[0]=m.x;B[1]=m.y;B[2]=(12+11*Math.min(S,1.6))*Math.sqrt(k);B[3]=.95*Math.min(S,1.6)*SET.spikes;n=1;}
   for(const d of H.drops){let ax=(d.hx-d.x)*.02,ay=(d.hy-d.y)*.02;const dx=m.x-d.x,dy=m.y-d.y,dd=Math.hypot(dx,dy)+.01;if(dd<PR&&S>.05){const f=1.2*S*SET.pull*(1-dd/PR);ax+=dx/dd*f;ay+=dy/dd*f;}if(H.pulse>.4){ax+=(Math.random()-.5)*H.pulse*2.5;ay+=(Math.random()-.5)*H.pulse*2.5;}
     d.vx=(d.vx+ax)*.86;d.vy=(d.vy+ay)*.86;d.x+=d.vx;d.y+=d.vy;const away=clamp(Math.hypot(d.x-d.hx,d.y-d.hy)/26);if(away>.02&&n<L.MAXB){B[n*4]=d.x;B[n*4+1]=d.y;B[n*4+2]=d.r*away;B[n*4+3]=0;n++;}}
